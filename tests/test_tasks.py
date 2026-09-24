@@ -24,10 +24,13 @@ def test_crud_task_flow(client: TestClient) -> None:
         "title": "Hoc FastAPI Production",
         "notes": "Viet CRUD Task",
         "priority": "high",
+        "status": "todo",
     }
     res = client.post("/api/v1/tasks", json=create_payload, headers=headers)
     assert res.status_code == 201
-    task_id = res.json()["data"]["id"]
+    task_data = res.json()["data"]
+    task_id = task_data["id"]
+    assert task_data["status"] == "todo"
 
     # 2. List task
     list_res = client.get("/api/v1/tasks", headers=headers)
@@ -40,15 +43,25 @@ def test_crud_task_flow(client: TestClient) -> None:
     assert get_res.status_code == 200
     assert get_res.json()["data"]["id"] == task_id
 
-    # 4. Update task
+    # 4. Update status to in_progress & in_review
+    update_status_res = client.patch(f"/api/v1/tasks/{task_id}", json={"status": "in_progress"}, headers=headers)
+    assert update_status_res.status_code == 200
+    assert update_status_res.json()["data"]["status"] == "in_progress"
+
+    update_status_res2 = client.patch(f"/api/v1/tasks/{task_id}", json={"status": "in_review"}, headers=headers)
+    assert update_status_res2.status_code == 200
+    assert update_status_res2.json()["data"]["status"] == "in_review"
+
+    # 5. Update task to completed / done
     update_res = client.patch(f"/api/v1/tasks/{task_id}", json={"is_completed": True}, headers=headers)
     assert update_res.status_code == 200
     assert update_res.json()["data"]["is_completed"] is True
+    assert update_res.json()["data"]["status"] == "done"
 
-    # 5. Delete task
+    # 6. Delete task
     del_res = client.delete(f"/api/v1/tasks/{task_id}", headers=headers)
     assert del_res.status_code == 204
 
-    # 6. Check 404 after delete
+    # 7. Check 404 after delete
     get_404 = client.get(f"/api/v1/tasks/{task_id}", headers=headers)
     assert get_404.status_code == 404

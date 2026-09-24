@@ -4,7 +4,7 @@ from uuid import UUID
 from sqlmodel import Session, func, select
 
 from app.core.exceptions import NotFoundError
-from app.models.task import Task
+from app.models.task import Task, TaskStatus
 from app.models.user import User
 from app.schemas.task import TaskCreate, TaskRead, TaskUpdate
 
@@ -21,11 +21,14 @@ class TaskService:
 
     def create_task(self, user: User, data: TaskCreate) -> TaskRead:
         """Tao task moi cho nguoi dung."""
+        is_completed = True if data.status == TaskStatus.DONE else False
         task = Task(
             user_id=user.id,
             category_id=data.category_id,
             title=data.title,
             notes=data.notes,
+            status=data.status,
+            is_completed=is_completed,
             priority=data.priority,
             deadline=data.deadline,
         )
@@ -97,6 +100,18 @@ class TaskService:
         """Cap nhat thong tin task theo ID (Partial Update)."""
         task = self._get_task_entity(user, task_id)
         update_data = data.model_dump(exclude_unset=True)
+
+        if "status" in update_data and "is_completed" not in update_data:
+            if update_data["status"] == TaskStatus.DONE:
+                update_data["is_completed"] = True
+            elif task.is_completed:
+                update_data["is_completed"] = False
+        elif "is_completed" in update_data and "status" not in update_data:
+            if update_data["is_completed"]:
+                update_data["status"] = TaskStatus.DONE
+            elif task.status == TaskStatus.DONE:
+                update_data["status"] = TaskStatus.TODO
+
         for key, value in update_data.items():
             setattr(task, key, value)
             

@@ -1,7 +1,7 @@
 import uuid
 from datetime import datetime
 from pydantic import BaseModel, ConfigDict, Field
-from app.models.task import TaskPriority
+from app.models.task import TaskPriority, TaskStatus
 
 
 class TaskCreate(BaseModel):
@@ -11,6 +11,7 @@ class TaskCreate(BaseModel):
     category_id: uuid.UUID | None = None
     title: str = Field(min_length=1, max_length=200)
     notes: str | None = None
+    status: TaskStatus = TaskStatus.TODO
     priority: TaskPriority = TaskPriority.MEDIUM
     deadline: datetime | None = None
 
@@ -23,6 +24,7 @@ class TaskUpdate(BaseModel):
     title: str | None = Field(default=None, min_length=1, max_length=200)
     notes: str | None = None
     is_completed: bool | None = None
+    status: TaskStatus | None = None
     priority: TaskPriority | None = None
     deadline: datetime | None = None
     completed_at: datetime | None = None
@@ -38,6 +40,7 @@ class TaskRead(BaseModel):
     title: str
     notes: str | None = None
     is_completed: bool = Field(default=False)
+    status: TaskStatus = TaskStatus.TODO
     priority: TaskPriority
     deadline: datetime | None = None
     completed_at: datetime | None = None

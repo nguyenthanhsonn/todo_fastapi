@@ -13,6 +13,13 @@ class TaskPriority(str, Enum):
     LOW = "low"
 
 
+class TaskStatus(str, Enum):
+    TODO = "todo"
+    IN_PROGRESS = "in_progress"
+    IN_REVIEW = "in_review"
+    DONE = "done"
+
+
 class Task(SQLModel, table=True):
     """Task database entity."""
 
@@ -24,6 +31,7 @@ class Task(SQLModel, table=True):
     title: str = Field(min_length=1, max_length=200, description="Title of the task")
     notes: str | None = Field(default=None, description="Notes of the task")
     is_completed: bool = Field(default=False, description="Status of the task")
+    status: TaskStatus = Field(default=TaskStatus.TODO, description="Status enum of the task")
     priority: TaskPriority = Field(default=TaskPriority.MEDIUM, description="Priority of the task")
     deadline: datetime | None = Field(default=None, description="Deadline of the task")
     completed_at: datetime | None = Field(default=None, description="Completed at of the task")
