@@ -7,6 +7,19 @@ __pycache__/
 .env
 .env.local
 .env.*.local
+*.env
+
+# Node & JS dependencies
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+lerna-debug.log*
+.pnpm-debug.log*
+
+# Neon CLI & linkage
+.neon
+.neon/
 
 # Virtual environments
 .venv/

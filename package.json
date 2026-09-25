@@ -1,0 +1,25 @@
+{
+  "name": "todolist",
+  "version": "1.0.0",
+  "description": "Một API quản lý Todo List được phát triển với FastAPI, tuân thủ đầy đủ các chuẩn mực sản xuất (Production-Ready Architecture).",
+  "main": "index.js",
+  "directories": {
+    "test": "tests"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/nguyenthanhsonn/todo_fastapi.git"
+  },
+  "keywords": [],
+  "type": "commonjs",
+  "bugs": {
+    "url": "https://github.com/nguyenthanhsonn/todo_fastapi/issues"
+  },
+  "homepage": "https://github.com/nguyenthanhsonn/todo_fastapi#readme",
+  "dependencies": {
+    "@neon/config": "^1.7.3"
+  }
+}
