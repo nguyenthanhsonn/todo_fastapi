@@ -1,5 +1,6 @@
 from typing import Annotated, Any
 from uuid import UUID
+
 from fastapi import APIRouter, Path, Query, status
 
 from app.dependencies import CurrentUserDep, TaskServiceDep
@@ -60,9 +61,9 @@ def list_task(
     },
 )
 def get_task_by_id(
-    task_id: UUID = Path(..., description="ID cua task can lay"),
-    current_user: CurrentUserDep = None,
-    task_service: TaskServiceDep = None,
+    current_user: CurrentUserDep,
+    task_service: TaskServiceDep,
+    task_id: Annotated[UUID, Path(description="ID cua task can lay")],
 ) -> Any:
     """Lay thong tin task theo ID."""
     task = task_service.task_id(user=current_user, task_id=task_id)
@@ -81,9 +82,9 @@ def get_task_by_id(
 )
 def update_task(
     req: TaskUpdate,
-    task_id: UUID = Path(..., description="ID cua task can cap nhat"),
-    current_user: CurrentUserDep = None,
-    task_service: TaskServiceDep = None,
+    current_user: CurrentUserDep,
+    task_service: TaskServiceDep,
+    task_id: Annotated[UUID, Path(description="ID cua task can cap nhat")],
 ) -> Any:
     """Cap nhat thong tin task theo ID."""
     task = task_service.task_update(user=current_user, task_id=task_id, data=req)
@@ -99,10 +100,9 @@ def update_task(
     },
 )
 def delete_task(
-    task_id: UUID = Path(..., description="ID cua task can xoa"),
-    current_user: CurrentUserDep = None,
-    task_service: TaskServiceDep = None,
+    current_user: CurrentUserDep,
+    task_service: TaskServiceDep,
+    task_id: Annotated[UUID, Path(description="ID cua task can xoa")],
 ) -> None:
     """Xoa task theo ID."""
     task_service.task_delete(user=current_user, task_id=task_id)
-    return None

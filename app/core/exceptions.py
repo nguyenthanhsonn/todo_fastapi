@@ -1,4 +1,6 @@
+from collections.abc import Sequence
 from typing import Any
+
 from fastapi import FastAPI, HTTPException, Request, status
 from fastapi.exceptions import RequestValidationError
 from fastapi.responses import JSONResponse
@@ -75,7 +77,7 @@ class DuplicateError(AppError):
         )
 
 
-def format_pydantic_errors(errors: list[dict[str, Any]]) -> tuple[str, dict[str, str]]:
+def format_pydantic_errors(errors: Sequence[Any]) -> tuple[str, dict[str, str]]:
     """Format Pydantic RequestValidationError list into clean message and fields dictionary."""
     fields: dict[str, str] = {}
     first_msg = "Validation Error"

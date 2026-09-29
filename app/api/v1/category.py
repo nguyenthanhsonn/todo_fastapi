@@ -1,9 +1,9 @@
 from typing import Any
-from uuid import UUID
+
 from fastapi import APIRouter, status
 
 from app.dependencies import CategoryServiceDep, CurrentUserDep
-from app.schemas.category import CategoryCreate, CategoryRead, CategoryUpdate
+from app.schemas.category import CategoryCreate, CategoryRead
 from app.schemas.response import ErrorResponse, SuccessResponse, success_response
 
 # Router khoi tao cho API Category (/categories)

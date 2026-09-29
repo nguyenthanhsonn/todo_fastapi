@@ -1,4 +1,5 @@
 from uuid import UUID
+
 from sqlmodel import Session
 
 from app.core.exceptions import CredentialError, DuplicateError, NotFoundError
@@ -6,7 +7,13 @@ from app.core.jwt import create_access_token
 from app.core.security import hash_password, verify_password
 from app.models.user import User
 from app.repositories.user import check_mail, get_user_by_email, get_user_by_id
-from app.schemas.user import LoginRequest, LoginResponse, ProfileRead, RegisterRequest, UserRead
+from app.schemas.user import (
+    LoginRequest,
+    LoginResponse,
+    ProfileRead,
+    RegisterRequest,
+    UserRead,
+)
 
 
 class UserService:
