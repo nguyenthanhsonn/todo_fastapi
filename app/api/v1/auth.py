@@ -1,4 +1,5 @@
 from typing import Any
+
 from fastapi import APIRouter, status
 
 from app.dependencies import CurrentUserDep, UserServiceDep

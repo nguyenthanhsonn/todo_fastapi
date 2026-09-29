@@ -1,10 +1,8 @@
-from uuid import UUID
-from sqlmodel import Session, select
+from sqlmodel import Session
 
-from app.core.exceptions import NotFoundError
 from app.models.category import Category
 from app.models.user import User
-from app.schemas.category import CategoryCreate, CategoryRead, CategoryUpdate
+from app.schemas.category import CategoryCreate, CategoryRead
 
 
 class CategoryService:

@@ -1,6 +1,6 @@
-import uuid
 from typing import Any
 from uuid import UUID
+
 from sqlmodel import Session, func, select
 
 from app.core.exceptions import NotFoundError
@@ -21,7 +21,7 @@ class TaskService:
 
     def create_task(self, user: User, data: TaskCreate) -> TaskRead:
         """Tao task moi cho nguoi dung."""
-        is_completed = True if data.status == TaskStatus.DONE else False
+        is_completed = data.status == TaskStatus.DONE
         task = Task(
             user_id=user.id,
             category_id=data.category_id,

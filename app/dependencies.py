@@ -1,4 +1,3 @@
-from app.services.category_service import CategoryService
 from typing import Annotated
 from uuid import UUID
 
@@ -12,6 +11,7 @@ from app.core.jwt import decode_access_token
 from app.database import get_session
 from app.models.user import User
 from app.repositories.user import get_user_by_id
+from app.services.category_service import CategoryService
 from app.services.task_service import TaskService
 from app.services.user_service import UserService
 
